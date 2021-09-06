@@ -1,4 +1,7 @@
 import { SearchStyled } from './SearchStyled';
+import { connect } from 'react-redux';
+import * as actions from '../../redux/search/search-actions';
+import PropTypes from 'prop-types';
 
 const Search = ({ contacts, onSearch }) => {
   return (
@@ -15,4 +18,17 @@ const Search = ({ contacts, onSearch }) => {
   );
 };
 
-export default Search;
+const mapStateToProps = (state) => ({
+  contacts: state.contacts,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSearch: (e) => dispatch(actions.search(e.target.value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
+
+Search.propTypes = {
+  contacts: PropTypes.array,
+  onSearch: PropTypes.func,
+};

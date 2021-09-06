@@ -1,15 +1,37 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
+import * as actions from '../../redux/contacts/contacts-actions';
 import { PhonebookStyled } from './PhonebookStyled';
+import { v4 as uuidv4 } from 'uuid';
 
-const Phonebook = ({
-  handleSubmit,
-  inputId,
-  handleChange,
-  phoneInputId,
-  phone,
-  name,
-}) => {
+const Phonebook = ({ add }) => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [inputId] = useState(uuidv4());
+  const [phoneInputId] = useState(uuidv4());
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    add({ name, phone, id: uuidv4() });
+    setName('');
+    setPhone('');
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'phone':
+        setPhone(value);
+        break;
+      default:
+        return;
+    }
+  };
   return (
     <PhonebookStyled>
       <h2>Phonebook</h2>
@@ -40,13 +62,12 @@ const Phonebook = ({
   );
 };
 
-export default Phonebook;
+const mapDispatchToProps = (dispatch) => ({
+  add: (value) => dispatch(actions.add(value)),
+});
+
+export default connect(null, mapDispatchToProps)(Phonebook);
 
 Phonebook.propTypes = {
-  handleSubmit: PropTypes.func,
-  inputId: PropTypes.string,
-  handleChange: PropTypes.func,
-  phoneInputId: PropTypes.string,
-  phone: PropTypes.string,
-  name: PropTypes.string,
+  add: PropTypes.func,
 };
