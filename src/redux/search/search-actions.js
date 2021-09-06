@@ -1,6 +1,3 @@
-import types from './search-types';
+import { createAction } from '@reduxjs/toolkit';
 
-export const search = (value) => ({
-  type: types.SEARCH,
-  payload: value,
-});
+export const search = createAction('search/Set');

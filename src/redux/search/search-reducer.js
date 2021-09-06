@@ -1,10 +1,6 @@
-import types from './search-types';
+import * as actions from './search-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
-export const searchReducer = (state = '', { type, payload }) => {
-  switch (type) {
-    case types.SEARCH:
-      return payload;
-    default:
-      return state;
-  }
-};
+export const searchReducer = createReducer('', {
+  [actions.search]: (_, { payload }) => payload,
+});
