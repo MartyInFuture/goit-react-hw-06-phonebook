@@ -1,9 +1,11 @@
 import Contact from './contactsList/Contact';
 import { ContactsListStyled } from './ContactsListStyled';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const ContactsList = ({ contacts, search }) => {
+const ContactsList = () => {
+  const contacts = useSelector((state) => state.contacts);
+  const search = useSelector((state) => state.search);
+
   return (
     <>
       {contacts.length !== 0 && (
@@ -21,14 +23,4 @@ const ContactsList = ({ contacts, search }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  contacts: state.contacts,
-  search: state.search,
-});
-
-export default connect(mapStateToProps)(ContactsList);
-
-ContactsList.propTypes = {
-  contacts: PropTypes.array,
-  search: PropTypes.string,
-};
+export default ContactsList;

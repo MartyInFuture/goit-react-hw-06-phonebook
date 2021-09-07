@@ -1,9 +1,15 @@
 import { ContactStyled } from './ContactStyled';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as actions from '../../../redux/contacts/contacts-actions';
 
-const Contact = ({ name, phone, id, deleteItem }) => {
+const Contact = ({ name, phone, id }) => {
+  const dispatch = useDispatch();
+
+  const deleteItem = () => {
+    dispatch(actions.remove(id));
+  };
+
   return (
     <ContactStyled>
       <p className="text">
@@ -13,7 +19,7 @@ const Contact = ({ name, phone, id, deleteItem }) => {
         className="submit-button"
         type="button"
         value={id}
-        onClick={() => deleteItem(id)}
+        onClick={deleteItem}
       >
         Delete
       </button>
@@ -21,15 +27,10 @@ const Contact = ({ name, phone, id, deleteItem }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  deleteItem: (id) => dispatch(actions.remove(id)),
-});
-
-export default connect(null, mapDispatchToProps)(Contact);
+export default Contact;
 
 Contact.propTypes = {
   name: PropTypes.string,
   phone: PropTypes.string,
   id: PropTypes.string,
-  deleteItem: PropTypes.func,
 };

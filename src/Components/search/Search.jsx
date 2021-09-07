@@ -1,9 +1,13 @@
 import { SearchStyled } from './SearchStyled';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/search/search-actions';
-import PropTypes from 'prop-types';
 
-const Search = ({ contacts, onSearch }) => {
+const Search = () => {
+  const contacts = useSelector((state) => state.contacts);
+  const dispatch = useDispatch();
+
+  const search = (e) => dispatch(actions.search(e.target.value));
+
   return (
     <SearchStyled>
       {contacts.length === 0 ? (
@@ -11,24 +15,11 @@ const Search = ({ contacts, onSearch }) => {
       ) : (
         <>
           <h3>Find contacts by name</h3>
-          <input className="search" type="text" onChange={onSearch} />
+          <input className="search" type="text" onChange={search} />
         </>
       )}
     </SearchStyled>
   );
 };
 
-const mapStateToProps = (state) => ({
-  contacts: state.contacts,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSearch: (e) => dispatch(actions.search(e.target.value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
-
-Search.propTypes = {
-  contacts: PropTypes.array,
-  onSearch: PropTypes.func,
-};
+export default Search;
