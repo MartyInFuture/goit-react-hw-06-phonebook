@@ -1,21 +1,19 @@
 import Contact from './contactsList/Contact';
 import { ContactsListStyled } from './ContactsListStyled';
 import { useSelector } from 'react-redux';
+import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
 
 const ContactsList = () => {
-  const contacts = useSelector((state) => state.contacts);
-  const search = useSelector((state) => state.search);
+  const filteredContacts = useSelector(getFilteredContacts);
 
   return (
     <>
-      {contacts.length !== 0 && (
+      {filteredContacts.length !== 0 && (
         <ContactsListStyled>
           <ul className="list">
-            {contacts.length !== 0 &&
-              contacts.map(({ id, name, phone }) => {
-                if (!name.includes(search)) return false;
-                return <Contact key={id} name={name} phone={phone} id={id} />;
-              })}
+            {filteredContacts.map(({ id, name, phone }) => {
+              return <Contact key={id} name={name} phone={phone} id={id} />;
+            })}
           </ul>
         </ContactsListStyled>
       )}
